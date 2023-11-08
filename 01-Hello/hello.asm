@@ -4,12 +4,14 @@ segment .data
     ; EAX
     SYS_READ  equ 0x3
     SYS_WRITE equ 0x4
-    SYS_EXIT  equ 0x3c
+    SYS_EXIT  equ 0x1
 
     ;EBX
     STD_IN    equ 0x0
     STD_OUT   equ 0x1
     EXIT      equ 0x0
+
+    SYS_CALL  equ 0x80
 
 section .data
     QUESTION     db "Qual seu nome? "   ; char QUESTION[] = "Qual seu nome?";
@@ -26,29 +28,29 @@ section .text
 
 _start:
     mov eax, SYS_WRITE                  ; printf("%s", &QUESTION);
-    mov rbx, STD_OUT
-    mov rcx, QUESTION
-    mov rdx, SIZE_QUEST
-    syscall
+    mov ebx, STD_OUT
+    mov ecx, QUESTION
+    mov edx, SIZE_QUEST
+    int SYS_CALL
 
-    mov rax, SYS_READ                   ; scanf(%s, &NAME);
-    mov rbx, STD_IN
-    mov rcx, NAME
-    mov rdx, SIZE_NAME
-    syscall
+    mov eax, SYS_READ                   ; scanf(%s, &NAME);
+    mov ebx, STD_IN
+    mov ecx, NAME
+    mov edx, SIZE_NAME
+    int SYS_CALL
 
-    mov rax, SYS_WRITE                  ; printf("%s", &HELLO);
-    mov rbx, STD_OUT
-    mov rcx, HELLO
-    mov rdx, SIZE_HELLO
-    syscall
+    mov eax, SYS_WRITE                  ; printf("%s", &HELLO);
+    mov ebx, STD_OUT
+    mov ecx, HELLO
+    mov edx, SIZE_HELLO
+    int SYS_CALL
 
-    mov rax, SYS_WRITE                  ; printf("%s", &NAME);
-    mov rbx, STD_OUT
-    mov rcx, NAME
-    mov rdx, SIZE_NAME
-    syscall
+    mov eax, SYS_WRITE                  ; printf("%s", &NAME);
+    mov ebx, STD_OUT
+    mov ecx, NAME
+    mov edx, SIZE_NAME
+    int SYS_CALL
 
-    mov rax, SYS_EXIT                   ; return 0;
-    mov rbx, EXIT
-    syscall
+    mov eax, SYS_EXIT                   ; return 0;
+    mov ebx, EXIT
+    int SYS_CALL
