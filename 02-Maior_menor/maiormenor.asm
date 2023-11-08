@@ -1,58 +1,67 @@
+; Intel - x86 (32bits) - compatível com x86 (64 bits)
+
+segment .data
+    ; EAX
+    SYS_WRITE equ 0x4
+    SYS_EXIT  equ 0x1
+
+    ;EBX
+    STD_OUT   equ 0x1
+    EXIT      equ 0x0
+
+    SYS_CALL  equ 0x80
+
 section .data
 
-    SYS_EXIT  equ 60
-    SYS_WRITE equ 1
-    STD_OUT   equ 1
-    EXIT      equ 0
+    GREAT_MSG   db "X maior que Y", 0xa     ; char GREAT_MSG[] = "X maior que Y\n";
+    EQUA_MSG    db "X iqual a Y", 0xa       ; char EQUA_MSG[]  = "X igual a Y\n";
+    LESS_MSG    db "X menor que Y", 0xa     ; char LESS_MSG[]  = "X menor que Y,\n";
 
-    GREAT_MSG   db "X maior que Y", 0xa
-    EQUA_MSG    db "X iqual que Y", 0xa
-    LESS_MSG    db "X menor que Y", 0xa
-
-    SIZE_G  equ 14
-    SIZE_L  equ 14
-    SIZE_E  equ 14
-    N1       dd 4
-    N2       dd 3
+    SIZE_G      equ 14                      ; int SIZE_G = 14;
+    SIZE_L      equ 14                      ; int SIZE_L = 14;
+    SIZE_E      equ 12                      ; int SIZE_E = 12;
+    X           dd   4                      ; int X      =  4;
+    Y           dd   5                      ; int Y      =  5;
 
 section .text
     global _start
 
     _start:
 
-        mov eax, DWORD [N1]
-        mov ebx, DWORD [N2]
+        mov eax, DWORD [X]
+        mov ebx, DWORD [Y]
         cmp eax, ebx
-        je  equa
-        jge great_n1
+        je  equa                            ; if (X == Y) equa();
+        jg  great                           ; else if (X > Y) great();
 
-        mov rsi, LESS_MSG
-        mov rdx, SIZE_L
+        mov ecx, LESS_MSG
+        mov edx, SIZE_L                     ; print(LESS_MSG, SIZE_L);
         call print
 
-        call exit
+        call exit                           ; exit();
 
     equa:
-        mov rsi, EQUA_MSG
-        mov rdx, SIZE_E
-        call print
-        call exit
-        ret
+        mov ecx, EQUA_MSG                   ; void equa()
+        mov edx, SIZE_E                     ; {
+        call print                          ;       print(EQUA_MSG, SIZE_E);
+        call exit                           ;       return;
+        ret                                 ; }
 
-    great_n1:
-        mov rsi, GREAT_MSG
-        mov rdx, SIZE_G
-        call print
-        call exit
-        ret
+    great:
+        mov ecx, GREAT_MSG                  ; void great()
+        mov edx, SIZE_G                     ; {
+        call print                          ;       print(GREAT_MSG, SIZE_G);
+        call exit                           ;       return;
+        ret                                 ; }
 
     exit:
-        mov rax, SYS_EXIT
-        mov rdi, EXIT
-        syscall
+        mov eax, SYS_EXIT
+        mov ebx, EXIT                       ; exit(0);
+        int SYS_CALL
 
     print:
-        mov rax, SYS_WRITE
-        mov rdi, STD_OUT
-        syscall
-        ret
+        mov eax, SYS_WRITE                  ; void print(char[] msg, int size)
+        mov ebx, STD_OUT                    ; {
+        int SYS_CALL                        ;       printf("%s", &msg);
+        ret                                 ;       return;
+                                            ; }
