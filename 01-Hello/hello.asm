@@ -1,4 +1,4 @@
-; Intel - IA-32 (32bits) - compatível com x86-64 (64 bits)
+; Intel - x86 (32bits) - compatível com x86 (64 bits)
 
 segment .data
     ; EAX
