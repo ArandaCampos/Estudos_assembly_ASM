@@ -37,22 +37,21 @@ section .text
         mov ecx, LESS_MSG
         mov edx, SIZE_L                     ; print(LESS_MSG, SIZE_L);
         call print
-
-        call exit                           ; exit();
+        jmp exit                            ; exit();
 
     equa:
         mov ecx, EQUA_MSG                   ; void equa()
         mov edx, SIZE_E                     ; {
         call print                          ;       print(EQUA_MSG, SIZE_E);
-        call exit                           ;       return;
-        ret                                 ; }
+        jmp exit                            ;       return;
+                                            ; }
 
     great:
         mov ecx, GREAT_MSG                  ; void great()
         mov edx, SIZE_G                     ; {
         call print                          ;       print(GREAT_MSG, SIZE_G);
-        call exit                           ;       return;
-        ret                                 ; }
+        jmp exit                            ;       return;
+                                            ; }
 
     exit:
         mov eax, SYS_EXIT
