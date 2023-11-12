@@ -9,10 +9,8 @@ section .rdata
     F_2         equ 0x1
     N           equ 0xA
 
-section .bss
-
-
 section .text
+
 global _start
 
 fibonacci:              ; int fibonacci(int f_1, int f_2, int n) {
