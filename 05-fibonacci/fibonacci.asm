@@ -15,7 +15,7 @@ global _start
 
 fibonacci:              ; int fibonacci(int f_1, int f_2, int n) {
     cmp ecx, 0x2        ;       if (n <= 2)
-        jle .lessthen2  ;           return lessthen2();
+        jle .lessthan2  ;           return lessthen2();
     sub ecx, 0x2        ;       n = n - 2;
 .sequence:              ;       while (n > 0) {
     add ebx, eax        ;           f_1 = f_1 + f_2;
@@ -27,7 +27,7 @@ fibonacci:              ; int fibonacci(int f_1, int f_2, int n) {
     ret                 ;       return F_2;
                         ; }
 
-.lessthen2:             ; int lessthen2(int n) {
+.lessthan2:             ; int lessthen2(int n) {
     cmp ecx, 0x0        ;       if (n <= 0)
         jle .notExist   ;           return notExit();
     ret                 ;       return 1;
