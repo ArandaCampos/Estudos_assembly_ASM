@@ -13,25 +13,25 @@ section .text
 global _start
 
 
-is_prime:
-    cmp ebx, ecx        ; if (n <= 1)
-        jle .negative   ;       return 0;
-
-    mov ecx, 0x1        ; counter = 2;
-
-.FOR:                   ; for
+is_prime:               ; int is_prime(int n)
                         ; {
-    inc ecx             ;   divisor++
-    cmp ecx, ebx        ;   if (n == divisor)
-        je .positive    ;       return 1;
+    mov ecx, 0x1        ;       counter = 1;
+    cmp ebx, ecx        ;       if (n <= counter)
+        jle .negative   ;           return 0;
+
+.FOR:                   ;       for
+                        ;       {
+    inc ecx             ;           divisor++
+    cmp ecx, ebx        ;           if (n == divisor)
+        je .positive    ;               return 1;
 
     mov eax, ebx
-    div ecx             ;   quociente = n / divisor; resto = n % divisor
+    div ecx             ;       quociente = n / divisor; resto = n % divisor
 
-    cmp edx, 0          ;   if (resto == 0)
-        je .negative    ;       return 0;
+    cmp edx, 0          ;       if (resto == 0)
+        je .negative    ;           return 0;
 
-    xor edx, edx
+    xor edx, edx        ;       }
     jmp .FOR            ; }
 
 .negative:
@@ -41,11 +41,11 @@ is_prime:
     mov eax, 1
     ret
 
-_start:
+_start:                 ; int main ()
+                        ; {
+    mov ebx, N          ;    n = 97;
+    call is_prime       ;    is_prime(n);
 
-    mov ebx, N
-    call is_prime
-
-    mov eax, SYS_EXIT
-    mov ebx, EXIT
+    mov eax, SYS_EXIT   ;    return 0;
+    mov ebx, EXIT       ; }
     int SYS_CALL
