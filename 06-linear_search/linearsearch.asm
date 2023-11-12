@@ -26,36 +26,36 @@ linearsearch:           ; int linearsearch(int* list, int* end, int n) {
                         ; }
 
 .found:
-    mov eax, edx
+    mov eax, 1
     ret
 
 .notfound:
     mov eax, 0
     ret
 
-insert:
-    mov DWORD[eax], edx
-    add eax, 4
-    ret
+insert:                     ; int* insert(int * pointer, int n) {
+    mov DWORD[eax], edx     ;       *pointer = n;
+    add eax, 4              ;       return pointer->next;
+    ret                     : }
 
-_start:                 ; int main (){
-    lea eax, list       ;       int[] *pointer  = list[0];
+_start:                     ; int main (){
+    lea eax, list           ;       int[] *pointer  = list[0];
 
-    mov edx, 0xA        ;       insert(pointer, 10);
+    mov edx, 0xA            ;       pointer = insert(pointer, 10);
     call insert
 
-    mov edx, 0XB        ;       insert (pointer, 11);
+    mov edx, 0XB            ;       pointer = insert (pointer, 11);
     call insert
 
-    mov edx, 0x1        ;       insert (pointer, 1);
+    mov edx, 0x1            ;       pointer = insert (pointer, 1);
     call insert
 
-    mov ecx, 0xA
-    call linearsearch   ;       linearsearch(pointer, 10);
+    mov ecx, 0xA            ;       linearsearch(pointer, 10);
+    call linearsearch
 
-    mov ecx, 0x2
-    call linearsearch   ;       linearsearch(pointer, 10);
+    mov ecx, 0x2            ;       linearsearch(pointer, 2);
+    call linearsearch
 
-    mov eax, SYS_EXIT   ;       return 0;
-    mov ebx, EXIT       ; }
+    mov eax, SYS_EXIT       ;       return 0;
+    mov ebx, EXIT           ; }
     int SYS_CALL
